@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dalfit: home and gym workouts</title>
+<meta name="description" content="31 ready-made workouts for home and the gym, a player that counts your sets and rest, and progress you can see week to week. No account needed.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dalfit: home and gym workouts">
+<meta property="og:description" content="Pick the gear you have and see which of 31 workouts you can do today.">
+<meta property="og:url" content="https://lemiarino.github.io/dalfit-pages/">
+<meta property="og:image" content="https://lemiarino.github.io/dalfit-pages/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<link rel="preload" as="image" href="img/hero.jpg">
+<style>
+  /* ---------- Hero ---------- */
+  .hero { position: relative; padding: 24px 0 0; }
+  .hero-grid { display: grid; gap: 0; align-items: center; }
+  .hero-art {
+    position: relative;
+    margin: 0 calc(var(--gutter) * -1);
+    /* Fade the photo into the page at both ends so the black of the image and the page are one. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 70%, transparent 100%);
+  }
+  .hero-art img {
+    width: 100%;
+    /* Phones: a squarer crop centred on the athlete makes the figure bigger. */
+    aspect-ratio: 5 / 4;
+    object-fit: cover;
+    object-position: 57% 50%;
+    /* The signature moment: the athlete starts grey and the working muscles switch on. */
+    animation: switch-on 1.6s var(--ease) 120ms both;
+  }
+  @keyframes switch-on {
+    from { filter: grayscale(1) brightness(0.55); transform: scale(1.025); }
+    to { filter: grayscale(0) brightness(1); transform: scale(1); }
+  }
+  .hero-copy { position: relative; margin-top: -8%; }
+  .hero h1 {
+    font-weight: 800;
+    font-size: clamp(2.9rem, 9.5vw, 5.6rem);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+    margin: 0 0 22px;
+  }
+  .hero h1 span { display: block; }
+  .hero-lede { font-size: clamp(1.05rem, 2.2vw, 1.2rem); color: var(--g400); max-width: 32rem; margin: 0 0 30px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .hero-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--g500);
+  }
+  .hero-facts li { display: flex; align-items: center; gap: 8px; }
+  .hero-facts li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--g700); }
+
+  @media (min-width: 900px) {
+    .hero { padding-top: 40px; }
+    .hero-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .hero-copy { margin-top: 0; order: -1; z-index: 1; }
+    .hero-art img { aspect-ratio: 3 / 2; object-position: 50% 50%; }
+    .hero-art {
+      margin: 0 calc(var(--gutter) * -1) 0 -12%;
+      /* Feather every edge, so no rectangle shows against the background glow. */
+      -webkit-mask-image: radial-gradient(ellipse 62% 66% at 54% 50%, #000 58%, transparent 100%);
+      mask-image: radial-gradient(ellipse 62% 66% at 54% 50%, #000 58%, transparent 100%);
+    }
+  }
+
+  /* ---------- Section rhythm ---------- */
+  .block { padding-top: clamp(88px, 12vw, 150px); }
+  .block-head { max-width: 40rem; margin-bottom: 32px; }
+  .block-head h2 {
+    font-weight: 800;
+    font-size: clamp(2.1rem, 5.6vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin: 0 0 14px;
+  }
+  .block-head h2 span { display: block; }
+  .block-head p { color: var(--g400); margin: 0; }
+
+  /* ---------- Equipment picker (the app's onboarding chips) ---------- */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; padding: 0; list-style: none; }
+  .chip {
+    appearance: none;
+    font: 600 15px/1 var(--sans);
+    color: var(--g400);
+    background: var(--g900);
+    border: 1px solid var(--g800);
+    border-radius: 999px;
+    /* Room for the checkmark is kept on both sides, so a chip never changes width when tapped
+       and the rows don't reflow under your finger. */
+    padding: 12px 29px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform var(--t-quick) var(--ease), background-color var(--t-quick) var(--ease), color var(--t-quick) var(--ease), border-color var(--t-quick) var(--ease);
+  }
+  .chip:hover { color: var(--g50); border-color: var(--g700); }
+  .chip:active { transform: scale(0.95); }
+  .chip[aria-pressed="true"] { background: var(--white); color: var(--black); border-color: var(--white); padding: 12px 18px; }
+  .chip svg { width: 14px; height: 14px; display: none; flex: none; }
+  .chip[aria-pressed="true"] svg { display: block; }
+
+  .meter {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 22px;
+    background: var(--g900);
+    border: 1px solid var(--g800);
+    border-radius: 999px;
+    margin-bottom: 44px;
+  }
+  .meter-count { margin: 0; font-family: var(--mono); font-size: 14px; color: var(--g400); white-space: nowrap; }
+  .meter-count b { font-weight: 500; color: var(--white); font-size: 20px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .meter-track { height: 6px; border-radius: 999px; background: var(--g800); overflow: hidden; }
+  .meter-fill {
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    background: var(--white);
+    transform-origin: left center;
+    transform: scaleX(var(--p, 0));
+    transition: transform var(--t-slow) var(--ease);
+  }
+
+  .group + .group { margin-top: 48px; }
+  .group-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+  .group-head h3 { font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em; margin: 0; }
+  .group-head .mono { color: var(--g500); }
+
+  .cards {
+    list-style: none;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 4px var(--gutter) 12px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(72%, 300px);
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 var(--gutter);
+    scrollbar-width: none;
+  }
+  .cards::-webkit-scrollbar { display: none; }
+  @media (min-width: 760px) {
+    .cards {
+      margin: 0;
+      padding: 0;
+      grid-auto-flow: row;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      overflow: visible;
+      gap: 18px;
+    }
+  }
+
+  .card {
+    scroll-snap-align: start;
+    background: var(--g900);
+    border: 1px solid var(--g800);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    position: relative;
+    transition: border-color var(--t-slow) var(--ease);
+  }
+  .card.ready { border-color: var(--g700); }
+  .card-cover { aspect-ratio: 3 / 2; background: var(--black); overflow: hidden; }
+  .card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) brightness(0.42);
+    transition: filter var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+  }
+  .card.ready .card-cover img { filter: grayscale(0) brightness(1); }
+  .card.ready:hover .card-cover img { transform: scale(1.03); }
+  .card-body { padding: 14px 18px 18px; }
+  .card h4 {
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    color: var(--g500);
+    transition: color var(--t-slow) var(--ease);
+  }
+  .card.ready h4 { color: var(--g50); }
+  .card-line { margin: 0; color: var(--g500); font-family: var(--mono); font-size: 12.5px; }
+  .card .needs { color: var(--g400); }
+  .card.ready .needs, .card:not(.ready) .stats { display: none; }
+  .card .tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font: 500 11px/1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--g50);
+    background: rgba(20, 20, 20, 0.86);
+    border: 1px solid var(--g700);
+    border-radius: 999px;
+    padding: 6px 9px;
+  }
+
+  /* ---------- What's inside ---------- */
+  .features { display: grid; gap: 14px; }
+  @media (min-width: 860px) { .features { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+  .feature {
+    background: var(--g900);
+    border: 1px solid var(--g800);
+    border-radius: var(--card-radius);
+    padding: 28px 26px 26px;
+  }
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--g800);
+    display: grid;
+    place-items: center;
+    margin-bottom: 22px;
+  }
+  .feature-icon svg { width: 22px; height: 22px; stroke: var(--white); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .feature h3 { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; margin: 0 0 10px; }
+  .feature p { color: var(--g400); margin: 0; font-size: 16px; }
+
+  /* ---------- Privacy ---------- */
+  .privacy {
+    border: 1px solid var(--g800);
+    border-radius: calc(var(--card-radius) + 8px);
+    padding: clamp(28px, 6vw, 64px);
+    background: radial-gradient(90% 120% at 0% 0%, var(--g850) 0%, var(--g950) 55%, var(--black) 100%);
+  }
+  .privacy h2 { font-weight: 800; font-size: clamp(1.9rem, 4.8vw, 3.2rem); line-height: 1.02; letter-spacing: -0.04em; margin: 0 0 26px; max-width: 18ch; }
+  .privacy h2 span { display: block; }
+  .promises { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 28px; }
+  .promises li { font: 500 13px/1 var(--mono); color: var(--g50); border: 1px solid var(--g700); border-radius: 999px; padding: 10px 14px; }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="img/icon-96.png" alt="" width="30" height="30">Dalfit</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#workouts">Workouts</a>
+      <a href="support.html">Support</a>
+      <a class="hide-sm" href="privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-art">
+        <img src="img/hero.jpg" width="1400" height="933" alt="An athlete holds a deep bodyweight squat, arms reaching forward, with the working muscles in the thighs, glutes and core glowing green.">
+      </div>
+      <div class="hero-copy">
+        <p class="eyebrow">Home and gym workouts for iPhone</p>
+        <h1><span>Train anywhere.</span> <span class="dim">Track everything.</span></h1>
+        <p class="hero-lede">31 ready-made workouts for home and the gym, a player that counts your sets and your rest, and progress you can see week to week.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#workouts">See what you can do today</a>
+          <span class="btn btn-quiet">Coming soon to the App Store</span>
+        </div>
+        <ul class="hero-facts mono">
+          <li>850+ exercises</li>
+          <li>No account needed</li>
+          <li>No ads</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="workouts" aria-labelledby="picker-title">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Pick your gear</p>
+        <h2 id="picker-title"><span>What do you have?</span> <span class="dim">Watch your workouts light up.</span></h2>
+        <p>Dalfit asks this when you set it up, then puts the workouts you can do first. Try it.</p>
+      </div>
+
+      <ul class="chips" id="chips" aria-label="Your equipment"></ul>
+
+      <div class="meter">
+        <p class="meter-count" id="meter-count" aria-live="polite"></p>
+        <div class="meter-track" aria-hidden="true"><div class="meter-fill" id="meter-fill"></div></div>
+      </div>
+
+      <div class="group">
+        <div class="group-head"><h3>At home</h3><span class="mono" id="count-home"></span></div>
+        <ul class="cards" id="cards-home"></ul>
+      </div>
+      <div class="group">
+        <div class="group-head"><h3>At the gym</h3><span class="mono" id="count-gym"></span></div>
+        <ul class="cards" id="cards-gym"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="inside-title">
+    <div class="wrap">
+      <div class="block-head">
+        <p class="eyebrow">Inside the app</p>
+        <h2 id="inside-title"><span>Press Start.</span> <span class="dim">Dalfit keeps count.</span></h2>
+      </div>
+      <div class="features">
+        <article class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9.5 2.5h5"/></svg></div>
+          <h3>A player that keeps count</h3>
+          <p>Log each set with a tap. Rest starts on its own, with ±15 seconds and Skip, and voice cues and haptics tell you what's next. Close the app mid-workout and pick up where you left off.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></div>
+          <h3>Progress you can see</h3>
+          <p>Workouts and volume week by week, personal records from your estimated one-rep max, your full history, and body measurements like weight and waist.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h10M5 18h6M18 15v6M15 18h6"/></svg></div>
+          <h3>Routines of your own</h3>
+          <p>Build one from 850+ exercises, or copy a ready-made workout and change it. Reps or timed sets, weight and rest, in the order you want.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="privacy-title">
+    <div class="wrap">
+      <div class="privacy">
+        <p class="eyebrow">Your data</p>
+        <h2 id="privacy-title"><span>Your training stays on your phone.</span> <span class="dim">Sign in only if you want a backup.</span></h2>
+        <ul class="promises">
+          <li>No ads</li>
+          <li>No tracking</li>
+          <li>Delete your account in the app</li>
+        </ul>
+        <a href="privacy.html">Read the privacy policy</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/icon-96.png" alt="" width="30" height="30">Dalfit</a>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="#workouts">Workouts</a>
+      <a href="support.html">Support</a>
+      <a href="privacy.html">Privacy policy</a>
+      <a href="terms.html">Terms of use</a>
+    </nav>
+    <p>Made by Denver Delorino. Coming soon to the App Store. Exercise data from the public-domain free-exercise-db project.</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  // Same chips, in the same order, as the app's onboarding equipment step.
+  const GEAR = [
+    ['body only', 'Body only'],
+    ['dumbbell', 'Dumbbell'],
+    ['kettlebells', 'Kettlebells'],
+    ['bands', 'Bands'],
+    ['barbell', 'Barbell'],
+    ['cable', 'Cable'],
+    ['machine', 'Machine'],
+    ['e-z curl bar', 'E-Z curl bar'],
+    ['other', 'Other'],
+  ];
+  const LEVEL = { beginner: 'Beginner', intermediate: 'Intermediate', expert: 'Expert' };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const have = new Set(['body only']);
+  const els = new Map();
+  let workouts = [];
+
+  const header = document.querySelector('.site-header');
+  const onScroll = () => header.classList.toggle('scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const chips = document.getElementById('chips');
+  const check = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  for (const [id, label] of GEAR) {
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.innerHTML = check + '<span></span>';
+    b.lastChild.textContent = label;
+    b.setAttribute('aria-pressed', String(have.has(id)));
+    b.addEventListener('click', () => {
+      have.has(id) ? have.delete(id) : have.add(id);
+      b.setAttribute('aria-pressed', String(have.has(id)));
+      update(true);
+    });
+    li.append(b);
+    chips.append(li);
+  }
+
+  // canDoWith() from the app: every exercise's equipment must be in the list.
+  const missing = (w) => w.needs.filter((n) => !have.has(n));
+  const name = (id) => (id === 'other' ? 'other gear' : GEAR.find((g) => g[0] === id)?.[1].toLowerCase() ?? id);
+  const list = (items) => items.length < 3 ? items.join(' and ') : items.slice(0, -1).join(', ') + ' and ' + items.at(-1);
+
+  function card(w) {
+    const li = document.createElement('li');
+    li.className = 'card';
+    li.innerHTML =
+      '<div class="card-cover"><img alt="" loading="lazy" decoding="async" width="720" height="480"></div>' +
+      '<div class="card-body"><h4></h4><p class="card-line stats"></p><p class="card-line needs"></p></div>';
+    li.querySelector('img').src = 'img/covers/' + w.id + '.jpg';
+    li.querySelector('h4').textContent = w.name;
+    li.querySelector('.stats').textContent = w.minutes + ' min · ' + w.kcal + ' kcal · ' + LEVEL[w.level];
+    if (w.free) {
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = 'Free';
+      li.append(tag);
+    }
+    return li;
+  }
+
+  // Ready workouts move to the front, then the ones missing the least gear: the app's
+  // "unlocked first" order. FLIP keeps the cards visibly sliding instead of jumping.
+  function update(animate) {
+    const before = new Map();
+    if (animate && !reduced) for (const [id, el] of els) before.set(id, el.getBoundingClientRect());
+
+    let ready = 0;
+    for (const loc of ['home', 'gym']) {
+      const ul = document.getElementById('cards-' + loc);
+      const group = workouts
+        .map((w, i) => ({ w, i, miss: missing(w) }))
+        .filter((x) => x.w.location === loc)
+        .sort((a, b) => (a.miss.length > 0) - (b.miss.length > 0) || a.miss.length - b.miss.length || a.i - b.i);
+      let n = 0;
+      for (const { w, miss } of group) {
+        const el = els.get(w.id);
+        const ok = miss.length === 0;
+        el.classList.toggle('ready', ok);
+        el.querySelector('.needs').textContent = ok ? '' : 'Needs ' + list(miss.map(name));
+        ul.append(el);
+        if (ok) n++;
+      }
+      ready += n;
+      document.getElementById('count-' + loc).textContent = n + ' of ' + group.length + ' ready';
+      if (animate) ul.scrollTo({ left: 0, behavior: reduced ? 'auto' : 'smooth' });
+    }
+
+    const total = workouts.length;
+    document.getElementById('meter-count').innerHTML = '<b>' + ready + '</b> of ' + total + ' workouts ready';
+    document.getElementById('meter-fill').style.setProperty('--p', String(ready / total));
+
+    if (before.size) {
+      for (const [id, el] of els) {
+        const a = before.get(id);
+        const b = el.getBoundingClientRect();
+        const dx = a.left - b.left;
+        const dy = a.top - b.top;
+        if (dx || dy) {
+          el.animate([{ transform: 'translate(' + dx + 'px,' + dy + 'px)' }, { transform: 'none' }], {
+            duration: 420,
+            easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)',
+          });
+        }
+      }
+    }
+  }
+
+  fetch('workouts.json')
+    .then((r) => r.json())
+    .then((data) => {
+      workouts = data;
+      for (const w of workouts) els.set(w.id, card(w));
+      update(false);
+    })
+    .catch(() => {
+      document.getElementById('meter-count').textContent = "The workout list didn't load. Refresh the page to try again.";
+    });
+})();
+</script>
+</body>
+</html>
