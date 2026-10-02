@@ -51,11 +51,14 @@ history, the body measurements you log, and your settings. They are stored in th
 storage on your phone. Like any app data, they can be included in your phone's own backups.</p>
 
 <h2>If you create an account</h2>
-<p>An account is optional. You can sign up with an email address and password, or with Sign in
-with Apple. With an account, Dalfit keeps:</p>
+<p>An account is optional. You can sign in with Apple or with Google (version 1.0 of the app also
+lets you sign up with an email address and password). With an account, Dalfit keeps:</p>
 <ul>
   <li><strong>Sign-in details:</strong> your email address (with Sign in with Apple this can be
-  Apple's private relay address) and, if Apple shares it the first time you sign in, your name.</li>
+  Apple's private relay address) and, if Apple or Google shares it, your name. Google also
+  shares a link to your Google profile picture, which is stored with your account but not shown
+  in the app. Dalfit never sees your Apple or Google password. If you sign up with an email address, Dalfit
+keeps that address and your password (stored securely by Supabase).</li>
   <li><strong>A copy of your Dalfit data:</strong> your setup answers listed above; the routines
   you create; your workout history (which workout, when it started and ended, the sets with
   reps, weights and times, and the effort rating you give it); and the body measurements you log
@@ -65,6 +68,12 @@ with Apple. With an account, Dalfit keeps:</p>
 <p>This is used only to back up your data and bring it back when you sign in on another phone.
 It is stored with <a href="https://supabase.com">Supabase</a>, which hosts Dalfit's database in
 Seoul, South Korea.</p>
+<p>When you choose Sign in with Google, a Google sign-in page opens in a secure browser window
+and Google handles the sign-in under its own
+<a href="https://policies.google.com/privacy">privacy policy</a>. Google can see that you
+signed in to Dalfit; Dalfit does not get access to your Google account beyond your name, email
+address and profile picture, and does not use your Google data for anything else, such as
+advertising. Sign in with Apple works the same way under Apple's privacy policy.</p>
 
 <h2>Premium and purchases</h2>
 <p>Premium is bought through Apple. Apple takes the payment, and Dalfit never sees your card or
